@@ -1,3 +1,4 @@
+from fastapi.responses import RedirectResponse
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
@@ -37,3 +38,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
+
+@app.get("/")
+async def docs_redirect():
+    return RedirectResponse(url='/docs')
