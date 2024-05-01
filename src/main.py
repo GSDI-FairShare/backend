@@ -53,6 +53,6 @@ async def docs_redirect():
     return ["hola"]
 
 if __name__ == "__main__":
-    config = uvicorn.Config("main:app", host="0.0.0.0")
+    config = uvicorn.Config("src.main:app", host="0.0.0.0")
     server = uvicorn.Server(config)
     server.run()
