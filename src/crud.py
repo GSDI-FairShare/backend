@@ -22,7 +22,3 @@ def create_user(db: Session, user: schemas.User):
     db.commit()
     db.refresh(db_user)
     return db_user
-
-class hola:
-    def __init__(self):
-        print("Hello World!")
