@@ -2,6 +2,8 @@ from fastapi.responses import RedirectResponse
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
+import uvicorn
+
 from . import crud, models, schemas
 from .database import SessionLocal, engine
 
@@ -42,3 +44,8 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 @app.get("/")
 async def docs_redirect():
     return RedirectResponse(url='/docs')
+
+if __name__ == "__main__":
+    config = uvicorn.Config("main:app", host="0.0.0.0")
+    server = uvicorn.Server(config)
+    server.run()
