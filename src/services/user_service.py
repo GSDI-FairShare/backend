@@ -8,3 +8,6 @@ class UserService:
 
     def get_users(self):
         return self.ticket_repository.find_all()
+
+    def create_user(self, user):
+        return self.ticket_repository.create(user)
