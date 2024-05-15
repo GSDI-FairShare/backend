@@ -15,6 +15,6 @@ def get_users(db: Session = Depends(get_db)):
 
 
 @router.post("/users", response_model=User)
-def create_user(user: UserCreate, db: Session = Depends(get_db)):
+def create(user: UserCreate, db: Session = Depends(get_db)):
     user_service: UserService = UserService(db)
-    return user_service.create_user(user)
+    return user_service.create(user)

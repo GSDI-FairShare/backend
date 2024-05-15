@@ -12,10 +12,13 @@ class UserRepository:
     def find_all(self):
         return self.db.query(User).all()
 
-    def create(self, user: UserCreate):
+    def save(self, user: UserCreate):
         hashed_password = user.password
         user = User(email=user.email, username=user.username, password=hashed_password)
         self.db.add(user)
         self.db.commit()
         self.db.refresh(user)
         return user
+
+    def find_by_email(self, email: str):
+        return self.db.query(User).filter(User.email == email).first()
