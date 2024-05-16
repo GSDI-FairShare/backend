@@ -1,6 +1,7 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from src.repository.user_repository import UserRepository
+from src.models.request.user import UserCreate
 
 
 class UserService:
@@ -10,14 +11,18 @@ class UserService:
     def get_users(self):
         return self.user_repository.find_all()
 
-    def create(self, user):
-        bd_user = self.user_repository.find_by_email(email=user.email)
+    def create(self, user: UserCreate):
+        bd_user = self.user_repository.find_by_email(user.email)
         if bd_user:
-            raise HTTPException(status_code=400, detail="Email already registered")
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT, detail="Email already registered"
+            )
         return self.user_repository.save(user)
 
-    def find_by_email(self, email):
-        db_user = self.user_repository.find_by_email(email=email)
+    def find_by_email(self, email: str):
+        db_user = self.user_repository.find_by_email(email)
         if db_user is None:
-            raise HTTPException(status_code=404, detail="User not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+            )
         return db_user
