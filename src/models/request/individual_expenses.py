@@ -4,7 +4,6 @@ from decimal import Decimal
 
 
 class IndividualExpensesBase(BaseModel):
-    user_id: int
     date: date
     description: str
     amount: Decimal
