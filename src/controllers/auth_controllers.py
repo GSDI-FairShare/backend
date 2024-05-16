@@ -1,3 +1,4 @@
+from src.auth.hash_password import HashPassword
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -8,8 +9,12 @@ from src.models.request.user import User, UserCreate
 
 router = APIRouter()
 
+hash_password = HashPassword()
 
-@router.post("/register", response_model=User)
-def register(user: UserCreate, db: Session = Depends(get_db)):
+
+@router.post("/signup", response_model=User)
+def sign_user_up(user: UserCreate, db: Session = Depends(get_db)):
     auth_service: AuthService = AuthService(db)
-    return auth_service.register(user)
+    hashed_password = hash_password.create_hash(user.password)
+    user.password = hashed_password
+    return auth_service.signup(user)
