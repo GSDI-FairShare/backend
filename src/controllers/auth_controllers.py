@@ -1,11 +1,10 @@
-from src.auth.hash_password import HashPassword
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from src.database.connection import get_db
-
 from src.services.auth_service import AuthService
 from src.models.request.user import User, UserCreate
+from src.auth.hash_password import HashPassword
 
 router = APIRouter()
 
