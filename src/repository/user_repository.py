@@ -2,6 +2,8 @@ from sqlalchemy.orm import Session
 
 from src.models.data.user import User
 
+from src.models.data.individual_expenses import IndividualExpenses
+
 from src.models.request.user import UserCreate
 
 
