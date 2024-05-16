@@ -13,7 +13,7 @@ class IndividualExpensesRepository:
 
     def save(self, expense: IndividualExpensesCreate):
         expense = IndividualExpenses(
-            user_id=1,
+            user_id=expense.user_id,
             amount=expense.amount,
             description=expense.description,
             date=expense.date,

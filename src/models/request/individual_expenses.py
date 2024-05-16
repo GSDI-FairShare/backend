@@ -10,7 +10,7 @@ class IndividualExpensesBase(BaseModel):
 
 
 class IndividualExpensesCreate(IndividualExpensesBase):
-    pass
+    user_id: int
 
 
 class IndividualExpenses(IndividualExpensesBase):

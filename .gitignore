@@ -2,4 +2,3 @@ __pycache__/
 .env
 env/
 src/sql_app.db
-src/database/connection.py
