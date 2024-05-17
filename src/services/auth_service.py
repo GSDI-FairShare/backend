@@ -30,5 +30,5 @@ class AuthService:
                 detail="Incorrect email or password",
             )
 
-        access_token = create_access_token(user_db.email)
+        access_token = create_access_token(user_db.id)
         return {"access_token": access_token, "token_type": "Bearer"}
