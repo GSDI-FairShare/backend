@@ -1,6 +1,6 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
-from src.services.user_service import UserService
+from src.services.user_service import UserService, create_user_service
 from src.models.request.user import UserCreate
 from src.auth.hash_password import HashPassword
 from src.auth.jwt_handler import create_access_token
@@ -10,8 +10,8 @@ hash_password = HashPassword()
 
 
 class AuthService:
-    def __init__(self, db: Session):
-        self.user_service: UserService = UserService(db)
+    def __init__(self, user_service: UserService):
+        self.user_service = user_service
 
     def signup(self, user: UserCreate):
         return self.user_service.create(user)
@@ -32,3 +32,8 @@ class AuthService:
 
         access_token = create_access_token(user_db.id)
         return {"access_token": access_token, "token_type": "Bearer"}
+
+
+def create_auth_service(db: Session) -> AuthService:
+    user_service = create_user_service(db)
+    return AuthService(user_service)

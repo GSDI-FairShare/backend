@@ -2,6 +2,9 @@ from sqlalchemy.orm import Session
 from src.models.data.user import User
 from src.models.data.individual_expenses import IndividualExpenses
 from src.models.request.user import UserCreate
+from src.auth.hash_password import HashPassword
+
+hash_password = HashPassword()
 
 
 class UserRepository:
@@ -12,9 +15,7 @@ class UserRepository:
         return self.db.query(User).all()
 
     def save(self, user: UserCreate):
-        hashed_password = (
-            user.password
-        )  # Aquí podrías aplicar hash al password si es necesario
+        hashed_password = hash_password.create_hash(user.password)
         new_user = User(
             email=user.email, username=user.username, password=hashed_password
         )
