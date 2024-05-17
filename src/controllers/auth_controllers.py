@@ -14,14 +14,14 @@ def get_auth_service(db: Session = Depends(get_db)) -> AuthService:
     return create_auth_service(db)
 
 
-@router.post("/signup", response_model=User)
+@router.post("/signup", response_model=User, tags=["Auth"])
 def sign_user_up(
     user: UserCreate, auth_service: AuthService = Depends(get_auth_service)
 ):
     return auth_service.signup(user)
 
 
-@router.post("/signin", response_model=TokenResponse)
+@router.post("/signin", response_model=TokenResponse, tags=["Auth"])
 def sign_user_in(
     user: OAuth2PasswordRequestForm = Depends(),
     auth_service: AuthService = Depends(get_auth_service),

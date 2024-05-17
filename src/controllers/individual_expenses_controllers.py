@@ -21,7 +21,9 @@ def get_individual_expenses_service(
     return create_individual_expenses_service(db)
 
 
-@router.post("/expenses", response_model=IndividualExpenses)
+@router.post(
+    "/expenses", response_model=IndividualExpenses, tags=["Individual Expenses"]
+)
 def create_expense(
     expense: IndividualExpensesBase,
     user_id: int = Depends(authenticate),
@@ -32,7 +34,9 @@ def create_expense(
     return expenses_service.create(user_id, expense)
 
 
-@router.get("/expenses", response_model=list[IndividualExpenses])
+@router.get(
+    "/expenses", response_model=list[IndividualExpenses], tags=["Individual Expenses"]
+)
 def get_user_expenses(
     user_id: int = Depends(authenticate),
     expenses_service: IndividualExpensesService = Depends(
