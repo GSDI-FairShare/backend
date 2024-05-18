@@ -1,15 +1,14 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-
-from src.database.connection import get_db
 from src.auth.authenticate import authenticate
+from src.database.connection import get_db
+from src.models.request.individual_expenses import (
+    IndividualExpenses,
+    IndividualExpensesBase,
+)
 from src.services.individual_expenses_service import (
     IndividualExpensesService,
     create_individual_expenses_service,
-)
-from src.models.request.individual_expenses import (
-    IndividualExpensesBase,
-    IndividualExpenses,
 )
 
 router = APIRouter()
@@ -44,3 +43,25 @@ def get_user_expenses(
     ),
 ):
     return expenses_service.get_expenses(user_id)
+
+
+@router.get("/expenses/{expense_id}", tags=["Individual Expenses"])
+def get_expense(
+    expense_id: int,
+    user_id: int = Depends(authenticate),
+    expenses_service: IndividualExpensesService = Depends(
+        get_individual_expenses_service
+    ),
+):
+    return expenses_service.get_expense(user_id, expense_id)
+
+
+@router.delete("/expenses/{expense_id}", tags=["Individual Expenses"])
+def delete_expense(
+    expense_id: int,
+    user_id: int = Depends(authenticate),
+    expenses_service: IndividualExpensesService = Depends(
+        get_individual_expenses_service
+    ),
+):
+    return expenses_service.delete_expense(user_id, expense_id)

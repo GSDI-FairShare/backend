@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
-from src.repository.individual_expenses_repository import IndividualExpensesRepository
 from src.models.request.individual_expenses import (
     IndividualExpensesBase,
     IndividualExpensesCreate,
 )
+from src.repository.individual_expenses_repository import IndividualExpensesRepository
 
 
 class IndividualExpensesService:
@@ -17,6 +17,12 @@ class IndividualExpensesService:
 
     def get_expenses(self, user_id: int):
         return self.expenses_repository.find_by_user_id(user_id)
+
+    def get_expense(self, user_id: int, expense_id: int):
+        return self.expenses_repository.find_by_id(user_id, expense_id)
+
+    def delete_expense(self, user_id: int, expense_id: int):
+        return self.expenses_repository.delete_by_id(user_id, expense_id)
 
 
 # Factory function to create an instance of the service

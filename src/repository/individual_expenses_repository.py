@@ -1,9 +1,9 @@
-from sqlalchemy.orm import Session
 from typing import List
 
+from sqlalchemy.orm import Session
 from src.models.data.individual_expenses import IndividualExpenses
-from src.models.request.individual_expenses import IndividualExpensesCreate
 from src.models.data.user import User
+from src.models.request.individual_expenses import IndividualExpensesCreate
 
 
 class IndividualExpensesRepository:
@@ -24,3 +24,16 @@ class IndividualExpensesRepository:
 
     def find_by_user_id(self, user_id: int) -> List[IndividualExpenses]:
         return self.db.query(IndividualExpenses).filter_by(user_id=user_id).all()
+
+    def find_by_id(self, user_id: int, expense_id: int) -> IndividualExpenses:
+        return (
+            self.db.query(IndividualExpenses)
+            .filter_by(id=expense_id, user_id=user_id)
+            .first()
+        )
+
+    def delete_by_id(self, user_id: int, expense_id: int) -> None:
+        self.db.query(IndividualExpenses).filter_by(
+            id=expense_id, user_id=user_id
+        ).delete()
+        self.db.commit()
