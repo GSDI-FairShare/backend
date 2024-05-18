@@ -36,7 +36,7 @@ def create_expense(
 @router.get(
     "/expenses", response_model=list[IndividualExpenses], tags=["Individual Expenses"]
 )
-def get_user_expenses(
+def get_expenses(
     user_id: int = Depends(authenticate),
     expenses_service: IndividualExpensesService = Depends(
         get_individual_expenses_service
