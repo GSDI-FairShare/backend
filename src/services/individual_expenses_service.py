@@ -21,6 +21,13 @@ class IndividualExpensesService:
     def get_expense(self, user_id: int, expense_id: int):
         return self.expenses_repository.find_by_id(user_id, expense_id)
 
+    def update_expense(
+        self, user_id: int, expense_id: int, expense: IndividualExpensesBase
+    ):
+        expense_data = expense.model_dump()
+        expense_base = IndividualExpensesBase(**expense_data)
+        return self.expenses_repository.update_by_id(user_id, expense_id, expense_base)
+
     def delete_expense(self, user_id: int, expense_id: int):
         return self.expenses_repository.delete_by_id(user_id, expense_id)
 

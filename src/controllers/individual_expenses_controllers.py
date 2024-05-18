@@ -56,6 +56,18 @@ def get_expense(
     return expenses_service.get_expense(user_id, expense_id)
 
 
+@router.put("/expenses/{expense_id}", tags=["Individual Expenses"])
+def update_expense(
+    expense_id: int,
+    expense: IndividualExpensesBase,
+    user_id: int = Depends(authenticate),
+    expenses_service: IndividualExpensesService = Depends(
+        get_individual_expenses_service
+    ),
+):
+    return expenses_service.update_expense(user_id, expense_id, expense)
+
+
 @router.delete("/expenses/{expense_id}", tags=["Individual Expenses"])
 def delete_expense(
     expense_id: int,

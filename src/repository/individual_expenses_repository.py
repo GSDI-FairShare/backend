@@ -3,7 +3,10 @@ from typing import List
 from sqlalchemy.orm import Session
 from src.models.data.individual_expenses import IndividualExpenses
 from src.models.data.user import User
-from src.models.request.individual_expenses import IndividualExpensesCreate
+from src.models.request.individual_expenses import (
+    IndividualExpensesCreate,
+    IndividualExpensesBase,
+)
 
 
 class IndividualExpensesRepository:
@@ -31,6 +34,21 @@ class IndividualExpensesRepository:
             .filter_by(id=expense_id, user_id=user_id)
             .first()
         )
+
+    def update_by_id(
+        self, user_id: int, expense_id: int, expense: IndividualExpensesBase
+    ) -> IndividualExpenses:
+        self.db.query(IndividualExpenses).filter_by(
+            id=expense_id, user_id=user_id
+        ).update(
+            {
+                "date": expense.date,
+                "description": expense.description,
+                "amount": expense.amount,
+            }
+        )
+        self.db.commit()
+        return self.find_by_id(user_id, expense_id)
 
     def delete_by_id(self, user_id: int, expense_id: int) -> None:
         self.db.query(IndividualExpenses).filter_by(
