@@ -1,6 +1,9 @@
 from sqlalchemy.orm import Session
 from src.models.data.user import User
 from src.models.data.individual_expenses import IndividualExpenses
+from src.models.data.expense import Expense
+from src.models.data.group_member import GroupMember
+from src.models.data.expense_split import ExpenseSplit
 from src.models.request.user import UserCreate
 from src.auth.hash_password import HashPassword
 

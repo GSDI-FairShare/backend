@@ -13,4 +13,4 @@ class IndividualExpenses(Base):
     amount = Column(Numeric(10, 2))  # Assuming amount is a decimal number
 
     # Define relationship with User model
-    user = relationship("User", back_populates="expenses")
+    user = relationship("User", back_populates="individual_expenses")

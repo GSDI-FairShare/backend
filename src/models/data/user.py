@@ -12,4 +12,7 @@ class User(Base):
     password = Column(String)
 
     # Add relationship with IndividualExpenses model
-    expenses = relationship("IndividualExpenses", back_populates="user")
+    individual_expenses = relationship("IndividualExpenses", back_populates="user")
+    expenses = relationship("Expense", back_populates="creator")
+    groups = relationship("GroupMember", back_populates="user")
+    splits = relationship("ExpenseSplit", back_populates="user")
