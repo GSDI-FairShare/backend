@@ -8,7 +8,7 @@ import os
 load_dotenv()
 
 # SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
-SQLALCHEMY_DATABASE_URL = os.getenv("SQLALCHEMY_DATABASE_URL")
+SQLALCHEMY_DATABASE_URL = os.getenv("SQLALCHEMY_DATABASE_URL", "postgresql://postgres:postgres@db:5432/postgres")
 
 engine = create_engine(
     # SQLALCHEMY_DATABASE_URL,

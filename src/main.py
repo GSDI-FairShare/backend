@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 # from src.controllers import user_controllers
 from src.controllers import (
@@ -21,6 +22,14 @@ app = FastAPI(
             "description": "Operations with individual expenses",
         },
     ],
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins="*",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
 )
 
 # app.include_router(user_controllers.router)
