@@ -6,6 +6,7 @@ from src.controllers import (
     auth_controllers,
     group_controllers,
     individual_expenses_controllers,
+    group_members_controllers,
 )
 from src.database.connection import Base, engine
 
@@ -21,6 +22,8 @@ app = FastAPI(
             "name": "Individual Expenses",
             "description": "Operations with individual expenses",
         },
+        {"name": "Groups", "description": "Operations with groups"},
+        {"name": "Group Members", "description": "Operations with group members"},
     ],
 )
 
@@ -29,10 +32,11 @@ app.add_middleware(
     allow_origins="*",
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
 
 # app.include_router(user_controllers.router)
 app.include_router(auth_controllers.router)
 app.include_router(individual_expenses_controllers.router)
 app.include_router(group_controllers.router)
+app.include_router(group_members_controllers.router)

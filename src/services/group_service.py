@@ -1,19 +1,31 @@
+from typing import List
+
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
+from src.models.data.group import Group
 from src.models.request.group import GroupCreate
 from src.repository.group_repository import GroupRepository
-from src.models.data.group import Group
-from typing import List
-from fastapi import HTTPException, status
+from src.services.group_members_service import (
+    GroupMembersService,
+    create_group_members_service,
+)
 
 
 class GroupService:
-    def __init__(self, group_repository: GroupRepository):
+    def __init__(
+        self,
+        group_repository: GroupRepository,
+        group_members_service: GroupMembersService,
+    ):
         self.group_repository = group_repository
+        self.group_members_service = group_members_service
 
     def create(self, user_id: int, group: GroupCreate) -> Group:
         group_data = group.model_dump()
         group_create = GroupCreate(**group_data)
-        return self.group_repository.save(user_id, group_create)
+        new_group = self.group_repository.save(group_create)
+        self.group_members_service.add_member(user_id, new_group.id)
+        return new_group
 
     def get_groups(self) -> List[Group]:
         return self.group_repository.find_all()
@@ -52,4 +64,6 @@ class GroupService:
 
 
 def create_group_service(db: Session) -> GroupService:
-    return GroupService(GroupRepository(db))
+    group_repository = GroupRepository(db)
+    group_members_service = create_group_members_service(db)
+    return GroupService(group_repository, group_members_service)

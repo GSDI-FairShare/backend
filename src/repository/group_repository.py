@@ -13,12 +13,8 @@ class GroupRepository:
     def find_all(self) -> List[Group]:
         return self.db.query(Group).all()
 
-    def save(self, user_id, group: GroupCreate) -> Group:
+    def save(self, group: GroupCreate) -> Group:
         new_group = Group(name=group.name, description=group.description)
-        new_group_member = GroupMember(user_id=user_id, group=new_group)
-        self.db.add(new_group_member)
-        self.db.commit()
-        self.db.refresh(new_group_member)
 
         self.db.add(new_group)
         self.db.commit()

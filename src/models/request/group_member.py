@@ -10,6 +10,10 @@ class GroupMemberCreate(GroupMemberBase):
     pass
 
 
+class GroupMemberUpdate(GroupMemberBase):
+    pass
+
+
 class GroupMember(GroupMemberBase):
     id: int
 

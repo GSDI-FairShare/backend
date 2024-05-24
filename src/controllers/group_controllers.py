@@ -15,7 +15,7 @@ def get_group_service(
 
 
 @router.post("/groups", response_model=Group, tags=["Groups"])
-def create_group(
+def create_my_group(
     group: GroupCreate,
     user_id: int = Depends(authenticate),
     group_service: GroupService = Depends(get_group_service),
@@ -24,14 +24,6 @@ def create_group(
 
 
 @router.get("/groups", response_model=list[Group], tags=["Groups"])
-def get_groups(
-    user_id: int = Depends(authenticate),
-    group_service: GroupService = Depends(get_group_service),
-):
-    return group_service.get_groups()
-
-
-@router.get("/me/groups", response_model=list[Group], tags=["Groups"])
 def get_my_groups(
     user_id: int = Depends(authenticate),
     group_service: GroupService = Depends(get_group_service),
