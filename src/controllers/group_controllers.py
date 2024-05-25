@@ -31,14 +31,6 @@ def get_my_groups(
     return group_service.get_my_groups(user_id)
 
 
-@router.get("/groups/{group_id}", response_model=Group, tags=["Groups"])
-def get_group(
-    group_id: int,
-    group_service: GroupService = Depends(get_group_service),
-):
-    return group_service.get_group(group_id)
-
-
 @router.put("/groups/{group_id}", response_model=Group, tags=["Groups"])
 def update_group(
     group_id: int,
@@ -71,13 +63,3 @@ def delete_group(
         )
     group_service.delete_group(group_id)
     return {"message": "Group deleted successfully"}
-
-
-@router.get(
-    "/users/{user_id}/created-groups", response_model=list[Group], tags=["Groups"]
-)
-def get_groups_by_owner(
-    user_id: int,
-    group_service: GroupService = Depends(get_group_service),
-):
-    return group_service.get_groups_by_owner(user_id)
