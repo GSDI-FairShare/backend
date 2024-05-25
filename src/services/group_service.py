@@ -6,7 +6,6 @@ from src.models.data.group import Group
 from src.models.request.group import GroupCreate
 from src.models.request.group import GroupUpdate
 from src.repository.group_repository import GroupRepository
-from src.services.group_members_service import create_group_members_service
 from src.repository.group_members_repository import GroupMembersRepository
 
 
@@ -67,5 +66,5 @@ class GroupService:
 
 def create_group_service(db: Session) -> GroupService:
     group_repository = GroupRepository(db)
-    group_members_service = create_group_members_service(db)
-    return GroupService(group_repository, group_members_service)
+    group_members_repository = GroupMembersRepository(db)
+    return GroupService(group_repository, group_members_repository)
