@@ -1,7 +1,11 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from typing import List
-from src.models.request.group_member import GroupMemberCreate, GroupMember
+from src.models.request.group_member import (
+    GroupMemberCreate,
+    GroupMember,
+    GroupMemberUpdate,
+)
 from src.services.group_members_service import (
     GroupMembersService,
     create_group_members_service,
@@ -51,7 +55,7 @@ def get_group_member(
 )
 def update_group_member(
     group_member_id: int,
-    group_member: GroupMember,
+    group_member: GroupMemberUpdate,
     service: GroupMembersService = Depends(get_group_members_service),
 ):
     return service.update_group_member(group_member_id, group_member)

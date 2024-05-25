@@ -16,3 +16,6 @@ class User(Base):
     expenses = relationship("Expense", back_populates="creator")
     groups = relationship("GroupMember", back_populates="user")
     splits = relationship("ExpenseSplit", back_populates="user")
+
+    # Add relationship with Group model for owned groups
+    owned_groups = relationship("Group", back_populates="owner")

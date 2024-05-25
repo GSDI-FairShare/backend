@@ -4,6 +4,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from src.models.data.group import Group
 from src.models.request.group import GroupCreate
+from src.models.request.group import GroupUpdate
 from src.repository.group_repository import GroupRepository
 from src.services.group_members_service import (
     GroupMembersService,
@@ -21,9 +22,9 @@ class GroupService:
         self.group_members_service = group_members_service
 
     def create(self, user_id: int, group: GroupCreate) -> Group:
-        group_data = group.model_dump()
-        group_create = GroupCreate(**group_data)
-        new_group = self.group_repository.save(group_create)
+        group_data = group.model_dump()  # Usar model_dump en lugar de dict
+        group_data["owner_id"] = user_id  # Agregar el owner_id al grupo
+        new_group = self.group_repository.save(GroupCreate(**group_data))
         self.group_members_service.add_member(user_id, new_group.id)
         return new_group
 
@@ -39,14 +40,14 @@ class GroupService:
             )
         return group
 
-    def update_group(self, group_id: int, group: GroupCreate) -> Group:
+    def update_group(self, group_id: int, group: GroupUpdate) -> Group:
         existing_group = self.get_group(group_id)
         if not existing_group:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Group with id {group_id} not found",
             )
-        group_data = group.model_dump()
+        group_data = group.model_dump()  # Usar model_dump en lugar de dict
         group_base = GroupCreate(**group_data)
         return self.group_repository.update_by_id(group_id, group_base)
 
@@ -61,6 +62,9 @@ class GroupService:
 
     def get_my_groups(self, user_id: int) -> List[Group]:
         return self.group_repository.find_by_user_id(user_id)
+
+    def get_groups_by_owner(self, owner_id: int) -> List[Group]:
+        return self.group_repository.find_by_owner_id(owner_id)
 
 
 def create_group_service(db: Session) -> GroupService:

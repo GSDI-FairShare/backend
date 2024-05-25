@@ -8,7 +8,7 @@ class GroupBase(BaseModel):
 
 
 class GroupCreate(GroupBase):
-    pass
+    owner_id: int  # Nuevo campo
 
 
 class GroupUpdate(GroupBase):
@@ -17,6 +17,7 @@ class GroupUpdate(GroupBase):
 
 class Group(GroupBase):
     id: int
+    owner_id: int  # Nuevo campo
 
     class Config:
         from_attributes = True

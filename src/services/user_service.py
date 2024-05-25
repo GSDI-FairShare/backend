@@ -27,6 +27,14 @@ class UserService:
             )
         return db_user
 
+    def find_by_id(self, user_id: int):
+        db_user = self.user_repository.find_by_id(user_id)
+        if db_user is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+            )
+        return db_user
+
 
 def create_user_service(db: Session) -> UserService:
     user_repository = UserRepository(db)

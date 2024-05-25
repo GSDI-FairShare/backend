@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from src.models.data.group import Group
 from src.models.request.group import GroupCreate
 from src.models.data.group_member import GroupMember
+from src.models.request.group_member import GroupMemberUpdate
 
 
 class GroupMembersRepository:
@@ -24,7 +25,7 @@ class GroupMembersRepository:
         return self.db.query(GroupMember).filter_by(id=group_member_id).first()
 
     def update_by_id(
-        self, group_member_id: int, group_member: GroupMember
+        self, group_member_id: int, group_member: GroupMemberUpdate
     ) -> GroupMember:
         self.db.query(GroupMember).filter_by(id=group_member_id).update(
             {"user_id": group_member.user_id}
