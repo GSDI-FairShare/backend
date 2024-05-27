@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from src.repository.group_members_repository import GroupMembersRepository
-from src.repository.user_repository import UserRepository
+from src.services.user_service import UserService, create_user_service
 from src.models.data.group_member import GroupMember
 from typing import List
 
@@ -10,19 +10,13 @@ class GroupMembersService:
     def __init__(
         self,
         group_members_repository: GroupMembersRepository,
-        user_repository: UserRepository,
+        user_service: UserService,
     ):
         self.group_members_repository = group_members_repository
-        self.user_repository = user_repository
+        self.user_service = user_service
 
     def add_member(self, user_id: int, group_id: int) -> GroupMember:
-        # Verificar si el usuario y el grupo existen
-        user = self.user_repository.find_by_id(user_id)
-        if not user:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"User with id {user_id} not found",
-            )
+        self.user_service.find_by_id(user_id)
 
         # Verificar si el usuario ya es miembro del grupo
         existing_member = self.group_members_repository.find_by_user_and_group(
@@ -77,5 +71,5 @@ class GroupMembersService:
 
 def create_group_members_service(db: Session) -> GroupMembersService:
     group_members_repository = GroupMembersRepository(db)
-    user_repository = UserRepository(db)
-    return GroupMembersService(group_members_repository, user_repository)
+    user_service = create_user_service(db)
+    return GroupMembersService(group_members_repository, user_service)
