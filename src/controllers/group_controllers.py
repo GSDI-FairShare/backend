@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from src.auth.authenticate import authenticate
 from src.database.connection import get_db
 from src.services.group_service import GroupService, create_group_service
-from src.models.request.group import GroupCreate, Group, GroupUpdate
+from src.models.request.group import GroupBase, Group, GroupUpdate
 
 router = APIRouter()
 
@@ -16,7 +16,7 @@ def get_group_service(
 
 @router.post("/groups", response_model=Group, tags=["Groups"])
 def create_my_group(
-    group: GroupCreate,
+    group: GroupBase,
     user_id: int = Depends(authenticate),
     group_service: GroupService = Depends(get_group_service),
 ):

@@ -3,26 +3,28 @@ from typing import List
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from src.models.data.group import Group
-from src.models.request.group import GroupCreate
-from src.models.request.group import GroupUpdate
+from src.models.request.group import GroupBase, GroupCreate, GroupUpdate
 from src.repository.group_repository import GroupRepository
-from src.repository.group_members_repository import GroupMembersRepository
+from src.services.group_members_service import (
+    GroupMembersService,
+    create_group_members_service,
+)
 
 
 class GroupService:
     def __init__(
         self,
         group_repository: GroupRepository,
-        group_members_repository: GroupMembersRepository,
+        group_members_service: GroupMembersService,
     ):
         self.group_repository = group_repository
-        self.group_members_repository = group_members_repository
+        self.group_members_service = group_members_service
 
-    def create(self, user_id: int, group: GroupCreate) -> Group:
+    def create(self, user_id: int, group: GroupBase) -> Group:
         group_data = group.model_dump()  # Usar model_dump en lugar de dict
         group_data["owner_id"] = user_id  # Agregar el owner_id al grupo
         new_group = self.group_repository.save(GroupCreate(**group_data))
-        self.group_members_repository.save(user_id, new_group.id)
+        self.group_members_service.add_member(user_id, new_group.id)
         return new_group
 
     def get_groups(self) -> List[Group]:
@@ -66,5 +68,5 @@ class GroupService:
 
 def create_group_service(db: Session) -> GroupService:
     group_repository = GroupRepository(db)
-    group_members_repository = GroupMembersRepository(db)
-    return GroupService(group_repository, group_members_repository)
+    group_members_service = create_group_members_service(db)
+    return GroupService(group_repository, group_members_service)
