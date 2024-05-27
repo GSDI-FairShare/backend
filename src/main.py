@@ -7,6 +7,7 @@ from src.controllers import (
     group_controllers,
     individual_expenses_controllers,
     group_members_controllers,
+    expense_controllers,
 )
 from src.database.connection import Base, engine
 
@@ -24,6 +25,7 @@ app = FastAPI(
         },
         {"name": "Groups", "description": "Operations with groups"},
         {"name": "Group Members", "description": "Operations with group members"},
+        {"name": "Group Expenses", "description": "Operations with group expenses"},
     ],
 )
 
@@ -40,3 +42,4 @@ app.include_router(auth_controllers.router)
 app.include_router(individual_expenses_controllers.router)
 app.include_router(group_controllers.router)
 app.include_router(group_members_controllers.router)
+app.include_router(expense_controllers.router)

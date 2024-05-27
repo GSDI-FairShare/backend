@@ -1,11 +1,11 @@
 from pydantic import BaseModel
-from decimal import Decimal
 
 
 class ExpenseSplitBase(BaseModel):
     expense_id: int
     user_id: int
-    percentage: Decimal
+    amount: float
+    percentage: float
     paid: bool
 
 

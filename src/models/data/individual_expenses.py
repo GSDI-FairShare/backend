@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey, Numeric
+from sqlalchemy import Column, Float, Integer, String, Date, ForeignKey, Numeric
 from sqlalchemy.orm import relationship
 from src.database.connection import Base
 
@@ -10,7 +10,7 @@ class IndividualExpenses(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     date = Column(Date)
     description = Column(String)
-    amount = Column(Numeric(10, 2))  # Assuming amount is a decimal number
+    amount = Column(Float, nullable=False)
 
     # Define relationship with User model
     user = relationship("User", back_populates="individual_expenses")

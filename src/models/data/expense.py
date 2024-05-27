@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float
+from sqlalchemy import Column, Integer, String, Date, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from src.database.connection import Base
 
@@ -9,7 +9,7 @@ class Expense(Base):
     group_id = Column(Integer, ForeignKey("groups.id"), nullable=False)
     amount = Column(Float, nullable=False)
     description = Column(String, nullable=False)
-    date = Column(DateTime, nullable=False)
+    date = Column(Date, nullable=False)
     created_by = Column(Integer, ForeignKey("users.id"), nullable=False)
 
     group = relationship("Group", back_populates="expenses")

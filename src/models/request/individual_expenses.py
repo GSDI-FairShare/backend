@@ -6,7 +6,7 @@ from decimal import Decimal
 class IndividualExpensesBase(BaseModel):
     date: date
     description: str
-    amount: Decimal
+    amount: float
 
 
 class IndividualExpensesCreate(IndividualExpensesBase):
