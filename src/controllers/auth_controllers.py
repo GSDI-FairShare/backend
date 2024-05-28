@@ -14,7 +14,7 @@ def get_auth_service(db: Session = Depends(get_db)) -> AuthService:
     return create_auth_service(db)
 
 
-@router.post("/signup", response_model=User, tags=["Auth"])
+@router.post("/signup", response_model=TokenResponse, tags=["Auth"])
 def sign_user_up(
     user: UserCreate, auth_service: AuthService = Depends(get_auth_service)
 ):

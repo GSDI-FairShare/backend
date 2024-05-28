@@ -14,7 +14,9 @@ class AuthService:
         self.user_service = user_service
 
     def signup(self, user: UserCreate):
-        return self.user_service.create(user)
+        new_user = self.user_service.create(user)
+        access_token = create_access_token(new_user.id)
+        return {"access_token": access_token, "token_type": "Bearer"}
 
     def signin(self, user: OAuth2PasswordRequestForm):
         user_db = self.user_service.find_by_email(user.username)
