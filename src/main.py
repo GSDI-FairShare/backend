@@ -8,6 +8,7 @@ from src.controllers import (
     individual_expenses_controllers,
     group_members_controllers,
     expense_controllers,
+    user_controllers,
 )
 from src.database.connection import Base, engine
 
@@ -43,3 +44,4 @@ app.include_router(individual_expenses_controllers.router)
 app.include_router(group_controllers.router)
 app.include_router(group_members_controllers.router)
 app.include_router(expense_controllers.router)
+app.include_router(user_controllers.router)

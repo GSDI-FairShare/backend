@@ -22,3 +22,9 @@ def create_user(
     user: UserCreate, user_service: UserService = Depends(get_user_service)
 ):
     return user_service.create(user)
+
+@router.get("/users/email/{email}", response_model=User)
+def get_user_by_email(
+    email: str, user_service: UserService = Depends(get_user_service)
+):
+    return user_service.find_by_email(email)
