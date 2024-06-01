@@ -1,4 +1,5 @@
 from fastapi import HTTPException, status, Depends, APIRouter
+from typing import List
 from sqlalchemy.orm import Session
 from src.auth.authenticate import authenticate
 from src.database.connection import get_db
@@ -25,3 +26,14 @@ def create_expense(
     service: ExpenseService = Depends(get_expense_service),
 ):
     return service.create_expense(user_id, group_id, expense)
+
+
+@router.get(
+    "/groups/{group_id}/expenses", response_model=List[Expense], tags=["Group Expenses"]
+)
+def get_expenses(
+    group_id: int,
+    user_id: int = Depends(authenticate),
+    service: ExpenseService = Depends(get_expense_service),
+):
+    return service.get_expenses(user_id, group_id)

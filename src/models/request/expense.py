@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from datetime import date
 from typing import List, Optional
-from decimal import Decimal
+from src.models.request.expense_split import ExpenseSplit
 
 
 class ExpenseSplitUser(BaseModel):
@@ -25,10 +25,14 @@ class ExpenseUpdate(ExpenseBase):
     pass
 
 
-class Expense(ExpenseBase):
+class Expense(BaseModel):
     id: int
     created_by: int
     group_id: int
+    amount: float
+    description: str
+    date: date
+    splits: list[ExpenseSplit] = []
 
     class Config:
         from_attributes = True

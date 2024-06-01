@@ -78,6 +78,20 @@ class ExpenseService:
                 )
         return new_expense
 
+    def get_expenses(self, user_id: int, group_id: int) -> List[Expense]:
+        group = self.group_service.get_group(group_id)
+        if not group:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Group with id {group_id} not found",
+            )
+        if not self.group_members_service.is_user_member_of_group(user_id, group_id):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="User is not a member of this group",
+            )
+        return self.expense_repository.find_by_group_id(group_id)
+
 
 def create_expense_service(session: Session) -> ExpenseService:
     return ExpenseService(

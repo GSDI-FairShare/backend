@@ -68,6 +68,12 @@ class GroupMembersService:
     def get_group_members_by_group_id(self, group_id: int) -> List[GroupMember]:
         return self.group_members_repository.find_by_group_id(group_id)
 
+    def is_user_member_of_group(self, user_id: int, group_id: int) -> bool:
+        return (
+            self.group_members_repository.find_by_user_and_group(user_id, group_id)
+            is not None
+        )
+
 
 def create_group_members_service(db: Session) -> GroupMembersService:
     group_members_repository = GroupMembersRepository(db)
