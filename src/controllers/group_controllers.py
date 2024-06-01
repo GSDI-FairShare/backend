@@ -31,6 +31,21 @@ def get_my_groups(
     return group_service.get_my_groups(user_id)
 
 
+@router.get("/groups/{group_id}", response_model=Group, tags=["Groups"])
+def get_group(
+    group_id: int,
+    user_id: int = Depends(authenticate),
+    group_service: GroupService = Depends(get_group_service),
+):
+    group = group_service.get_group(group_id)
+    if group.owner_id != user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to view this group",
+        )
+    return group
+
+
 @router.put("/groups/{group_id}", response_model=Group, tags=["Groups"])
 def update_group(
     group_id: int,
