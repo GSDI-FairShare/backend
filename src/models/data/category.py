@@ -2,8 +2,8 @@ from enum import Enum
 
 
 class ExpenseCategory(str, Enum):
-    FOOD = "food"
-    TRANSPORT = "transport"
+    FOOD = "comida"
+    TRANSPORT = "transporte"
     SHOPPING = "shopping"
-    ENTERTAINMENT = "entertainment"
-    OTHER = "other"
+    ENTERTAINMENT = "entretenimiento"
+    OTHER = "otro"

@@ -1,9 +1,10 @@
-from pydantic import BaseModel
 from datetime import date
 from typing import List, Optional
-from src.models.request.expense_split import ExpenseSplit
+
+from pydantic import BaseModel
 from src.models.data.category import ExpenseCategory
 from src.models.data.currency import CurrencyType
+from src.models.request.expense_split import ExpenseSplit
 
 
 class ExpenseSplitUser(BaseModel):

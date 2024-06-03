@@ -19,6 +19,9 @@ class IndividualExpensesRepository:
             amount=expense.amount,
             description=expense.description,
             date=expense.date,
+            category=expense.category,
+            currency=expense.currency,
+            paid=expense.paid,
         )
         self.db.add(expense)
         self.db.commit()
