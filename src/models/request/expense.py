@@ -12,6 +12,7 @@ class ExpenseSplitUser(BaseModel):
 class ExpenseBase(BaseModel):
     amount: float
     description: str
+    category: Optional[str] = None
     date: date
     splits: Optional[List[ExpenseSplitUser]] = None
 
