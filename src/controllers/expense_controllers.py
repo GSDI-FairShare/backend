@@ -8,6 +8,7 @@ from src.models.request.expense import (
     ExpenseBase,
     Expense,
 )
+from src.models.data.category import ExpenseCategory
 
 router = APIRouter()
 
@@ -37,3 +38,8 @@ def get_expenses(
     service: ExpenseService = Depends(get_expense_service),
 ):
     return service.get_expenses(user_id, group_id)
+
+
+@router.get("/categories", response_model=List[str], tags=["Group Expenses"])
+def get_expense_categories():
+    return [category.value for category in ExpenseCategory]

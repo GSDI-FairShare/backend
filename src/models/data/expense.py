@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey, Float
+from sqlalchemy import Column, Integer, String, Date, ForeignKey, Float, Enum
 from sqlalchemy.orm import relationship
 from src.database.connection import Base
+from src.models.data.category import ExpenseCategory
 
 
 class Expense(Base):
@@ -9,7 +10,7 @@ class Expense(Base):
     group_id = Column(Integer, ForeignKey("groups.id"), nullable=False)
     amount = Column(Float, nullable=False)
     description = Column(String, nullable=False)
-    category = Column(String, nullable=True)
+    category = Column(Enum(ExpenseCategory), nullable=True)
     date = Column(Date, nullable=False)
     created_by = Column(Integer, ForeignKey("users.id"), nullable=False)
 

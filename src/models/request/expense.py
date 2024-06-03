@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from datetime import date
 from typing import List, Optional
 from src.models.request.expense_split import ExpenseSplit
+from src.models.data.category import ExpenseCategory
 
 
 class ExpenseSplitUser(BaseModel):
@@ -12,7 +13,7 @@ class ExpenseSplitUser(BaseModel):
 class ExpenseBase(BaseModel):
     amount: float
     description: str
-    category: Optional[str] = None
+    category: Optional[ExpenseCategory] = None
     date: date
     splits: Optional[List[ExpenseSplitUser]] = None
 
@@ -32,6 +33,7 @@ class Expense(BaseModel):
     group_id: int
     amount: float
     description: str
+    category: Optional[ExpenseCategory] = None
     date: date
     splits: list[ExpenseSplit] = []
 
