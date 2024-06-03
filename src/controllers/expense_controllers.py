@@ -9,6 +9,7 @@ from src.models.request.expense import (
     Expense,
 )
 from src.models.data.category import ExpenseCategory
+from src.models.data.currency import CurrencyType
 
 router = APIRouter()
 
@@ -43,3 +44,8 @@ def get_expenses(
 @router.get("/categories", response_model=List[str], tags=["Group Expenses"])
 def get_expense_categories():
     return [category.value for category in ExpenseCategory]
+
+
+@router.get("/currencies", response_model=List[str], tags=["Group Expenses"])
+def get_currencies():
+    return [currency.value for currency in CurrencyType]

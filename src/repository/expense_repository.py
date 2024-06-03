@@ -19,6 +19,8 @@ class ExpenseRepository:
             created_by=expense.created_by,
             amount=expense.amount,
             description=expense.description,
+            category=expense.category,
+            currency=expense.currency,
             date=expense.date,
         )
         self.db.add(expense)
