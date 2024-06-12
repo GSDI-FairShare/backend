@@ -16,7 +16,7 @@ class ExpenseBase(BaseModel):
     amount: float
     description: str
     category: Optional[ExpenseCategory] = None
-    currency: CurrencyType
+    currency: CurrencyType = CurrencyType.ARS
     date: date
     splits: Optional[List[ExpenseSplitUser]] = None
 

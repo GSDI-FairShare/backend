@@ -11,8 +11,8 @@ class IndividualExpensesBase(BaseModel):
     description: str
     amount: float
     category: Optional[ExpenseCategory] = None
-    currency: CurrencyType
-    paid: bool
+    currency: CurrencyType = CurrencyType.ARS
+    paid: bool = False
 
 
 class IndividualExpensesCreate(IndividualExpensesBase):
