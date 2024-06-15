@@ -30,6 +30,12 @@ def get_my_groups(
 ):
     return group_service.get_my_groups(user_id)
 
+def isUserInGroup(user_id, group):
+    for member in group.members:
+        if (member.user_id == user_id):
+            return True
+    return False
+    
 
 @router.get("/groups/{group_id}", response_model=Group, tags=["Groups"])
 def get_group(
@@ -38,7 +44,7 @@ def get_group(
     group_service: GroupService = Depends(get_group_service),
 ):
     group = group_service.get_group(group_id)
-    if group.owner_id != user_id:
+    if (not isUserInGroup(user_id, group)):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to view this group",
